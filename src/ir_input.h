@@ -91,6 +91,73 @@ public:
 };
 
 //==================================================================
+// Using momentary contact buttons as a controller. I copied the 
+// logic from the NES_CONTROLLER
+//==================================================================
+#ifdef BUTTONS_CONTROLLER
+const uint16_t map_nes[8] = 
+{
+	GENERIC_FIRE | GENERIC_FIRE_A,	//NES_A
+	GENERIC_FIRE_B,	//NES_B
+	GENERIC_SELECT,	//NES_SELECT
+	GENERIC_START,	//NES_START
+	GENERIC_UP,		//NES_UP
+	GENERIC_DOWN,	//NES_DOWN
+	GENERIC_LEFT,	//NES_LEFT
+	GENERIC_RIGHT	//NES_RIGHT
+};
+
+IRState _buttons;
+int lastButtons = 0;
+
+int get_hid_buttons(uint8_t* dst)
+{
+	uint16_t buttonsA = 0;
+	
+	buttonsA |=(digitalRead(A_FIRE_PIN) == LOW) * GENERIC_FIRE;
+    buttonsA |= digitalRead(B_FIRE_PIN) == LOW  * GENERIC_FIRE_A;
+    buttonsA |= (digitalRead(A_START_PIN) == LOW)  * GENERIC_START;
+    buttonsA |= (digitalRead(A_UP_PIN) == LOW)  *GENERIC_UP;
+    buttonsA |= (digitalRead(A_DOWN_PIN) == LOW)  * GENERIC_DOWN;
+    buttonsA |= (digitalRead(A_LEFT_PIN) == LOW)  * GENERIC_LEFT;
+    buttonsA |= (digitalRead(A_RIGHT_PIN) == LOW)  * GENERIC_RIGHT;
+	
+	if (buttonsA == (GENERIC_LEFT | GENERIC_START)){
+		buttonsA |= GENERIC_OTHER;	//Press LEFT & START to open file menu
+	}
+	if (buttonsA == (GENERIC_RIGHT | GENERIC_START)){
+		buttonsA |= GENERIC_SELECT;	//Press RIGHT & START for SELECT
+	}
+	
+	if (buttonsA == (GENERIC_DOWN | GENERIC_START)){
+		buttonsA |= GENERIC_START;	//Press RIGHT & START for actual START
+	}
+	/*
+	if (lastButtons != buttonsA){
+		printf("NESCTRL:%04X\n", buttonsA);
+		if ((buttonsA & GENERIC_FIRE) == GENERIC_FIRE){printf("GENERIC_FIRE,");}
+		if ((buttonsA & GENERIC_FIRE_A) == GENERIC_FIRE_A){printf("GENERIC_FIRE_A,");}
+		if ((buttonsA & GENERIC_FIRE_B) == GENERIC_FIRE_B){printf("GENERIC_FIRE_B,");}
+		if ((buttonsA & GENERIC_START) == GENERIC_START){printf("GENERIC_START,");}
+		if ((buttonsA & GENERIC_SELECT) == GENERIC_SELECT){printf("GENERIC_SELECT,");}
+		if ((buttonsA & GENERIC_UP) == GENERIC_UP){printf("GENERIC_UP,");}
+		if ((buttonsA & GENERIC_DOWN) == GENERIC_DOWN){printf("GENERIC_DOWN,");}
+		if ((buttonsA & GENERIC_LEFT) == GENERIC_LEFT){printf("A_LEFT_PIN,");}
+		if ((buttonsA & GENERIC_RIGHT) == GENERIC_RIGHT){printf("A_RIGHT_PIN,");}
+		if ((buttonsA & GENERIC_OTHER) == GENERIC_OTHER){printf("GENERIC_OTHER,");}
+		printf("\n");
+	}
+	*/
+	lastButtons = buttonsA;
+	
+	_buttons.set(0,buttonsA,0); // no repeat period
+  
+  return _buttons.get_hid(dst);		
+}
+#endif
+
+
+//==================================================================
 //Classic hard wired NES controllers
 //==================================================================
 #ifdef NES_CONTROLLER
@@ -137,7 +204,6 @@ int get_hid_nes(uint8_t* dst)
   return _nes.get_hid(dst);		
 }
 #endif
-
 //==================================================================
 //Classic hard wired SNES controllers
 //==================================================================
@@ -761,6 +827,10 @@ int get_hid_ir(uint8_t* dst)
 #endif
 #ifdef NES_CONTROLLER
     if (n = get_hid_nes(dst))
+        return n;
+#endif
+#ifdef BUTTONS_CONTROLLER
+    if (n = get_hid_buttons(dst))
         return n;
 #endif
 #ifdef SNES_CONTROLLER
