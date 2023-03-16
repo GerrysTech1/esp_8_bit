@@ -25,6 +25,16 @@
 #include "src/emu.h"
 #include "src/video_out.h"
 
+//
+// I have modified KornN64's code to accept momentary contact switches as a contoller
+// look in config.h for #define BUTTONS_CONTROLLER
+// Gerry
+//
+
+//
+// KornN64
+//
+
 // esp_8_bit
 // Atari 8 computers, NES and SMS game consoles on your TV with nothing more than a ESP32 and a sense of nostalgia
 // Supports NTSC/PAL composite video, Bluetooth Classic keyboards and joysticks
@@ -141,6 +151,15 @@ void setup()
   int silicon_version = (REG_READ(EFUSE_BLK0_RDATA3_REG) >> 15) & 1;
   if (silicon_version == 0)
     printf("Warning this revision of the chip has an issue with the APLL and will not work properly!\n");
+
+  // setup momentary contact buttons as the controller
+  pinMode(A_FIRE_PIN, INPUT_PULLUP);
+  pinMode(B_FIRE_PIN, INPUT_PULLUP);
+  pinMode(A_START_PIN, INPUT_PULLUP);
+  pinMode(A_UP_PIN, INPUT_PULLUP);
+  pinMode(A_DOWN_PIN, INPUT_PULLUP);
+  pinMode(A_LEFT_PIN, INPUT_PULLUP);
+  pinMode(A_RIGHT_PIN, INPUT_PULLUP);
       
   rtc_clk_cpu_freq_set(RTC_CPU_FREQ_240M);  
   mount_filesystem();                       // mount the filesystem!
