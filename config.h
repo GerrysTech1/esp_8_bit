@@ -16,7 +16,7 @@
 /******************************************************************/
 /*Choose one of the following emulators: EMU_NES,EMU_SMS,EMU_ATARI*/
 /******************************************************************/
-#define EMULATOR EMU_NES
+#define EMULATOR EMU_ATARI
 
 /******************************************************************/
 /*Many emus work fine on a single core (S2), file system access can cause a little flickering*/
@@ -65,6 +65,20 @@
 #define CONFIG_SD_SCK 14
 #define CONFIG_SD_MISO 12
 
+// For use with BUTTONS_CONTROLLER
+// Define pins for buttons. The pins must not conflict with other options 
+// and must be capable of input. Note: not all the pins I tried that were 
+// documented as inputs, worked, I suspect that it's because we are forced 
+// to use board manager 1.4
+// Remember to set the pinMode to pull-up in void setup()."
+#define A_FIRE_PIN 0
+#define B_FIRE_PIN 21
+#define A_START_PIN 4
+#define A_UP_PIN 14
+#define A_DOWN_PIN 15
+#define A_LEFT_PIN 13
+#define A_RIGHT_PIN 12
+
 /****************************************************************/
 /*Controller support*/
 /****************************************************************/
@@ -72,7 +86,8 @@
 #define RETCON_CONTROLLER
 #define FLASHBACK_CONTROLLER
 //#define APPLE_TV_CONTROLLER
-#define NES_CONTROLLER	//Enable only NES OR SNES not both!
+//#define NES_CONTROLLER	//Enable only NES OR SNES not both!
+#define BUTTONS_CONTROLLER // direct wired buttons 
 //#define SNES_CONTROLLER	//Enable only NES OR SNES not both!
 
 /****************************************************************/
