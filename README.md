@@ -1,5 +1,7 @@
 I modified the code to support direct button presses from momentary contact buttons. This involves disabiling the NES controller and SD card features to free up some GPIO pins. This code is meant to be referenced by my YouTube video where I hack a MSI Entertainment TV Stick Space Invaders game to use esp_8_bit.
 
+![MSI Space Invaders Game](img/MSISpaceInvadersGame.jpg)
+
 # **ESP_8_BIT:** Atari 8 bit computers, NES and SMS game consoles on your TV with nothing more than a ESP32 and a sense of nostalgia
 ## Supports NTSC/PAL color composite video output, Bluetooth Classic or IR keyboards and joysticks; just the thing when we could all use a little distraction. This version also adds support for classic NES or SNES (one or two) controllers hardwired to the ESP32. Use SELECT + LEFT to access file menu and SELECT + START -> reset. There is also SD card support with FAT 8.3 filenames.
 
