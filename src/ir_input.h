@@ -114,13 +114,13 @@ int get_hid_buttons(uint8_t* dst)
 {
 	uint16_t buttonsA = 0;
 	
-	buttonsA |=(digitalRead(A_FIRE_PIN) == LOW) * GENERIC_FIRE;
-    	buttonsA |= digitalRead(B_FIRE_PIN) == LOW  * GENERIC_FIRE_A;
-    	buttonsA |= (digitalRead(A_START_PIN) == LOW)  * GENERIC_START;
-    	buttonsA |= (digitalRead(A_UP_PIN) == LOW)  *GENERIC_UP;
-    	buttonsA |= (digitalRead(A_DOWN_PIN) == LOW)  * GENERIC_DOWN;
-    	buttonsA |= (digitalRead(A_LEFT_PIN) == LOW)  * GENERIC_LEFT;
-    	buttonsA |= (digitalRead(A_RIGHT_PIN) == LOW)  * GENERIC_RIGHT;
+	buttonsA |= (digitalRead(A_FIRE_PIN) == LOW) * GENERIC_FIRE_A;
+    	buttonsA |= (digitalRead(B_FIRE_PIN) == LOW)  * GENERIC_FIRE_B;
+    	buttonsA |= (digitalRead(A_START_PIN) == LOW) * GENERIC_START;
+    	buttonsA |= (digitalRead(A_UP_PIN) == LOW) * GENERIC_UP;
+    	buttonsA |= (digitalRead(A_DOWN_PIN) == LOW) * GENERIC_DOWN;
+    	buttonsA |= (digitalRead(A_LEFT_PIN) == LOW) * GENERIC_LEFT;
+    	buttonsA |= (digitalRead(A_RIGHT_PIN) == LOW) * GENERIC_RIGHT;
 	
 	if (buttonsA == (GENERIC_LEFT | GENERIC_START)){
 		buttonsA |= GENERIC_OTHER;	//Press LEFT & START to open file menu
