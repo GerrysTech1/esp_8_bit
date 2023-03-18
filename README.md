@@ -1,5 +1,8 @@
 I modified the code to support direct button presses from momentary contact buttons. This involves disabiling the NES controller and SD card features to free up some GPIO pins. This code is meant to be referenced by my YouTube video where I hack a MSI Entertainment TV Stick Space Invaders game to use esp_8_bit.
 
+https://youtu.be/qFK8sSo9Lic
+https://youtu.be/BKur-ifcwH4
+
 ![MSI Space Invaders Game](img/MSISpaceInvadersGame.jpg)
 
 # **ESP_8_BIT:** Atari 8 bit computers, NES and SMS game consoles on your TV with nothing more than a ESP32 and a sense of nostalgia
